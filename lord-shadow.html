@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lord Shadow | Gaming Channel</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #FFD700;
+    --gold-dark: #B8860B;
+    --purple: #7B2FBE;
+    --purple-bright: #A855F7;
+    --purple-dark: #4A0E8F;
+    --shadow-bg: #080610;
+    --card-bg: #0E0A1A;
+    --text: #F0E6FF;
+    --muted: #8B7BAB;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--shadow-bg);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    width: 16px; height: 16px;
+    border: 2px solid var(--gold);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.15s ease, background 0.15s ease;
+    transform: translate(-50%, -50%);
+  }
+  .cursor-dot {
+    width: 4px; height: 4px;
+    background: var(--gold);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+  }
+  body:hover .cursor { background: rgba(255,215,0,0.1); }
+
+  /* Stars background */
+  .stars {
+    position: fixed; inset: 0;
+    background: 
+      radial-gradient(ellipse at 20% 20%, rgba(123,47,190,0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(168,85,247,0.1) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 50%, rgba(10,5,25,1) 0%, transparent 80%),
+      #080610;
+    z-index: -2;
+  }
+  .stars::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: 
+      radial-gradient(1px 1px at 10% 15%, rgba(255,215,0,0.8) 0%, transparent 0%),
+      radial-gradient(1px 1px at 25% 40%, rgba(255,255,255,0.6) 0%, transparent 0%),
+      radial-gradient(1.5px 1.5px at 40% 10%, rgba(255,215,0,0.9) 0%, transparent 0%),
+      radial-gradient(1px 1px at 55% 70%, rgba(255,255,255,0.5) 0%, transparent 0%),
+      radial-gradient(1px 1px at 70% 25%, rgba(168,85,247,0.8) 0%, transparent 0%),
+      radial-gradient(1.5px 1.5px at 85% 55%, rgba(255,215,0,0.7) 0%, transparent 0%),
+      radial-gradient(1px 1px at 15% 80%, rgba(255,255,255,0.6) 0%, transparent 0%),
+      radial-gradient(1px 1px at 60% 45%, rgba(255,255,255,0.4) 0%, transparent 0%),
+      radial-gradient(1px 1px at 90% 10%, rgba(168,85,247,0.9) 0%, transparent 0%),
+      radial-gradient(1px 1px at 35% 60%, rgba(255,215,0,0.6) 0%, transparent 0%),
+      radial-gradient(1px 1px at 75% 85%, rgba(255,255,255,0.5) 0%, transparent 0%),
+      radial-gradient(1.5px 1.5px at 5% 50%, rgba(255,215,0,0.7) 0%, transparent 0%),
+      radial-gradient(1px 1px at 48% 90%, rgba(168,85,247,0.6) 0%, transparent 0%),
+      radial-gradient(1px 1px at 92% 40%, rgba(255,255,255,0.7) 0%, transparent 0%),
+      radial-gradient(1px 1px at 20% 95%, rgba(255,215,0,0.5) 0%, transparent 0%);
+    animation: twinkle 4s ease-in-out infinite alternate;
+  }
+  @keyframes twinkle {
+    0% { opacity: 0.6; }
+    100% { opacity: 1; }
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 60px;
+    background: rgba(8,6,16,0.8);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255,215,0,0.1);
+    z-index: 100;
+  }
+  .nav-logo {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1.2rem;
+    color: var(--gold);
+    text-shadow: 0 0 20px rgba(255,215,0,0.5);
+    letter-spacing: 2px;
+  }
+  .nav-links { display: flex; gap: 40px; list-style: none; }
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: color 0.3s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute; bottom: -4px; left: 0; right: 100%;
+    height: 1px; background: var(--gold);
+    transition: right 0.3s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-links a:hover::after { right: 0; }
+  .nav-yt {
+    background: linear-gradient(135deg, var(--purple), var(--purple-bright));
+    color: white !important;
+    padding: 8px 20px;
+    border-radius: 4px;
+    font-size: 0.8rem !important;
+    transition: all 0.3s !important;
+  }
+  .nav-yt:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(168,85,247,0.5); }
+  .nav-yt::after { display: none !important; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    text-align: center;
+    padding: 120px 40px 80px;
+    position: relative;
+  }
+  .hero-glow {
+    position: absolute;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(123,47,190,0.3) 0%, transparent 70%);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    animation: pulseGlow 3s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes pulseGlow {
+    0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
+    50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+  }
+  .hero-avatar-wrap {
+    position: relative; display: inline-block; margin-bottom: 30px;
+  }
+  .avatar-ring {
+    width: 160px; height: 160px;
+    border-radius: 50%;
+    padding: 4px;
+    background: conic-gradient(from 0deg, var(--gold), var(--purple-bright), var(--gold));
+    animation: spin 8s linear infinite;
+    margin: 0 auto;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .avatar-inner {
+    width: 100%; height: 100%;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1a0a2e, #2d1b4e);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 4rem;
+    overflow: hidden;
+    border: 3px solid var(--shadow-bg);
+  }
+  .crown-badge {
+    position: absolute; bottom: -5px; right: -5px;
+    width: 40px; height: 40px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem;
+    border: 3px solid var(--shadow-bg);
+    animation: bounce 2s ease-in-out infinite;
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+  }
+  .hero-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(2.5rem, 8vw, 6rem);
+    font-weight: 900;
+    line-height: 1;
+    margin-bottom: 10px;
+    background: linear-gradient(135deg, var(--gold) 0%, #FFF8DC 40%, var(--gold) 60%, var(--gold-dark) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: none;
+    filter: drop-shadow(0 0 30px rgba(255,215,0,0.4));
+    animation: shimmer 3s ease-in-out infinite;
+  }
+  @keyframes shimmer {
+    0%, 100% { filter: drop-shadow(0 0 20px rgba(255,215,0,0.3)); }
+    50% { filter: drop-shadow(0 0 40px rgba(255,215,0,0.7)); }
+  }
+  .hero-handle {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.9rem;
+    color: var(--purple-bright);
+    letter-spacing: 4px;
+    margin-bottom: 20px;
+  }
+  .hero-desc {
+    font-size: 1.1rem;
+    color: var(--muted);
+    max-width: 500px;
+    margin: 0 auto 40px;
+    line-height: 1.7;
+  }
+  .hero-stats {
+    display: flex; gap: 40px; justify-content: center;
+    margin-bottom: 50px; flex-wrap: wrap;
+  }
+  .stat {
+    text-align: center;
+  }
+  .stat-num {
+    font-family: 'Orbitron', monospace;
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--gold);
+    display: block;
+    text-shadow: 0 0 20px rgba(255,215,0,0.5);
+  }
+  .stat-label {
+    font-size: 0.75rem;
+    color: var(--muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .hero-cta {
+    display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+  }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: linear-gradient(135deg, #FF0000, #CC0000);
+    color: white;
+    text-decoration: none;
+    padding: 16px 36px;
+    border-radius: 6px;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: all 0.3s;
+    position: relative; overflow: hidden;
+  }
+  .btn-primary::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, #FF4444, #FF0000);
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(255,0,0,0.4); }
+  .btn-primary:hover::before { opacity: 1; }
+  .btn-secondary {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: transparent;
+    color: var(--gold);
+    text-decoration: none;
+    padding: 16px 36px;
+    border-radius: 6px;
+    border: 1.5px solid var(--gold);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: all 0.3s;
+  }
+  .btn-secondary:hover { background: rgba(255,215,0,0.1); transform: translateY(-3px); box-shadow: 0 15px 40px rgba(255,215,0,0.2); }
+
+  /* DIVIDER */
+  .divider {
+    display: flex; align-items: center; gap: 20px;
+    padding: 0 60px; margin: 20px 0;
+  }
+  .divider-line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,215,0,0.3), transparent); }
+  .divider-icon { color: var(--gold); font-size: 1.2rem; }
+
+  /* SECTION STYLES */
+  section { padding: 100px 60px; max-width: 1200px; margin: 0 auto; }
+
+  .section-label {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 5px;
+    color: var(--purple-bright);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 700;
+    margin-bottom: 60px;
+    color: var(--text);
+    position: relative;
+  }
+  .section-title span { color: var(--gold); }
+  .section-title::after {
+    content: '';
+    display: block;
+    width: 60px; height: 3px;
+    background: linear-gradient(90deg, var(--gold), var(--purple-bright));
+    margin-top: 16px;
+    border-radius: 2px;
+  }
+
+  /* VIDEOS */
+  .videos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+  }
+  .video-card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(255,215,0,0.08);
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    position: relative;
+    cursor: pointer;
+  }
+  .video-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(255,215,0,0.3);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 30px rgba(123,47,190,0.2);
+  }
+  .video-thumb {
+    position: relative;
+    aspect-ratio: 16/9;
+    overflow: hidden;
+    background: linear-gradient(135deg, #1a0a2e, #0d1a3a);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 3rem;
+  }
+  .video-thumb-img {
+    width: 100%; height: 100%; object-fit: cover;
+  }
+  .video-duration {
+    position: absolute; bottom: 8px; right: 8px;
+    background: rgba(0,0,0,0.85);
+    color: white;
+    font-family: 'Orbitron', monospace;
+    font-size: 0.7rem;
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
+  .play-overlay {
+    position: absolute; inset: 0;
+    background: rgba(0,0,0,0);
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.3s;
+  }
+  .play-btn {
+    width: 50px; height: 50px;
+    background: rgba(255,0,0,0.9);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.3s;
+    font-size: 1.2rem;
+  }
+  .video-card:hover .play-overlay { background: rgba(0,0,0,0.3); }
+  .video-card:hover .play-btn { opacity: 1; transform: scale(1); }
+  .video-info { padding: 16px; }
+  .video-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.4;
+    margin-bottom: 8px;
+    color: var(--text);
+    transition: color 0.3s;
+  }
+  .video-card:hover .video-title { color: var(--gold); }
+  .video-meta {
+    font-size: 0.8rem;
+    color: var(--muted);
+    display: flex; gap: 12px;
+  }
+  .video-tag {
+    display: inline-block;
+    padding: 2px 8px;
+    background: rgba(123,47,190,0.2);
+    border: 1px solid rgba(168,85,247,0.3);
+    border-radius: 3px;
+    font-size: 0.65rem;
+    color: var(--purple-bright);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  /* ABOUT */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .about-visual {
+    position: relative;
+  }
+  .about-card {
+    background: linear-gradient(135deg, #0E0A1A, #1a0a2e);
+    border: 1px solid rgba(255,215,0,0.15);
+    border-radius: 16px;
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .about-card::before {
+    content: '👑';
+    position: absolute;
+    font-size: 8rem;
+    opacity: 0.07;
+    right: -20px; top: -20px;
+  }
+  .about-avatar {
+    font-size: 5rem;
+    margin-bottom: 20px;
+    display: block;
+    filter: drop-shadow(0 0 20px rgba(255,215,0,0.5));
+  }
+  .about-name {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1.6rem;
+    color: var(--gold);
+    margin-bottom: 4px;
+  }
+  .about-handle-text {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.75rem;
+    color: var(--purple-bright);
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+  }
+  .skills-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+  .skill-chip {
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+  .skill-chip.minecraft { background: rgba(34,197,94,0.15); border: 1px solid rgba(34,197,94,0.4); color: #4ADE80; }
+  .skill-chip.pokemon { background: rgba(251,191,36,0.15); border: 1px solid rgba(251,191,36,0.4); color: #FCD34D; }
+  .skill-chip.horror { background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.4); color: #F87171; }
+  .skill-chip.mods { background: rgba(168,85,247,0.15); border: 1px solid rgba(168,85,247,0.4); color: #C084FC; }
+  .about-text { font-size: 1.05rem; line-height: 1.8; color: #C4B8D8; margin-bottom: 20px; }
+  .about-perks { list-style: none; }
+  .about-perks li {
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,215,0,0.07);
+    display: flex; align-items: center; gap: 14px;
+    font-size: 1rem; color: #C4B8D8;
+  }
+  .perk-icon { font-size: 1.2rem; }
+
+  /* SOCIAL */
+  .social-section { text-align: center; padding: 80px 60px; }
+  .social-cards {
+    display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;
+    margin-top: 50px;
+  }
+  .social-card {
+    background: var(--card-bg);
+    border: 1px solid rgba(255,215,0,0.1);
+    border-radius: 12px;
+    padding: 30px 40px;
+    min-width: 200px;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.3s;
+    position: relative; overflow: hidden;
+  }
+  .social-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .social-card.yt::before { background: linear-gradient(135deg, rgba(255,0,0,0.1), transparent); }
+  .social-card.ig::before { background: linear-gradient(135deg, rgba(225,48,108,0.1), rgba(255,220,128,0.05), transparent); }
+  .social-card:hover { transform: translateY(-5px); }
+  .social-card.yt:hover { border-color: rgba(255,0,0,0.4); box-shadow: 0 10px 30px rgba(255,0,0,0.2); }
+  .social-card.ig:hover { border-color: rgba(225,48,108,0.4); box-shadow: 0 10px 30px rgba(225,48,108,0.2); }
+  .social-icon { font-size: 2.5rem; margin-bottom: 12px; display: block; }
+  .social-name { font-weight: 700; font-size: 1rem; letter-spacing: 1px; margin-bottom: 4px; }
+  .social-card.yt .social-name { color: #FF4444; }
+  .social-card.ig .social-name { color: #E1306C; }
+  .social-sub { font-size: 0.8rem; color: var(--muted); }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 40px;
+    border-top: 1px solid rgba(255,215,0,0.08);
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+  footer span { color: var(--gold); }
+
+  /* SCROLL ANIMATIONS */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Floating particles */
+  .particle {
+    position: fixed;
+    pointer-events: none;
+    border-radius: 50%;
+    animation: floatParticle linear infinite;
+    z-index: -1;
+  }
+  @keyframes floatParticle {
+    0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+  }
+
+  /* Mobile */
+  @media (max-width: 768px) {
+    nav { padding: 16px 20px; }
+    .nav-links { display: none; }
+    section { padding: 60px 24px; }
+    .about-grid { grid-template-columns: 1fr; gap: 40px; }
+    .hero-stats { gap: 24px; }
+    .divider { padding: 0 24px; }
+    .social-section { padding: 60px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="stars"></div>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">⚔️ Lord Shadow</div>
+  <ul class="nav-links">
+    <li><a href="#videos">Videos</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#social">Social</a></li>
+    <li><a href="https://www.youtube.com/@Shadow-c3-i1c" target="_blank" class="nav-yt">▶ Subscribe</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" style="max-width:100%;padding:120px 40px 80px;">
+  <div class="hero-glow"></div>
+  <div>
+    <div class="hero-avatar-wrap">
+      <div class="avatar-ring">
+        <div class="avatar-inner">👑</div>
+      </div>
+      <div class="crown-badge">⚡</div>
+    </div>
+    <div class="hero-title">Lord Shadow</div>
+    <div class="hero-handle">@Shadow-c3-i1c</div>
+    <p class="hero-desc">Gaming the darkness, ruling the realm. Minecraft, Pokémon, horror survival — every video is an adventure worth watching.</p>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num">1.38K</span><span class="stat-label">Subscribers</span></div>
+      <div class="stat"><span class="stat-num">295</span><span class="stat-label">Videos</span></div>
+      <div class="stat"><span class="stat-num">∞</span><span class="stat-label">Adventures</span></div>
+    </div>
+    <div class="hero-cta">
+      <a href="https://www.youtube.com/@Shadow-c3-i1c" target="_blank" class="btn-primary">▶ &nbsp;Watch on YouTube</a>
+      <a href="#videos" class="btn-secondary">🎮 &nbsp;See Videos</a>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><div class="divider-line"></div><div class="divider-icon">👑</div><div class="divider-line"></div></div>
+
+<!-- VIDEOS -->
+<section id="videos" class="fade-up">
+  <div class="section-label">Latest Content</div>
+  <div class="section-title">Recent <span>Videos</span></div>
+  <div class="videos-grid">
+
+    <div class="video-card" onclick="window.open('https://www.youtube.com/@Shadow-c3-i1c','_blank')">
+      <div class="video-thumb" style="background:linear-gradient(135deg,#1a0010,#3d0015);">
+        <div class="play-overlay"><div class="play-btn">▶</div></div>
+        <span>🌃</span>
+        <div class="video-duration">7:58</div>
+      </div>
+      <div class="video-info">
+        <div class="video-tag">Horror</div>
+        <div class="video-title">First NIGHT SHIFT in SHAWARMA shop 😱</div>
+        <div class="video-meta"><span>👁 32 views</span><span>4 days ago</span></div>
+      </div>
+    </div>
+
+    <div class="video-card" onclick="window.open('https://www.youtube.com/@Shadow-c3-i1c','_blank')">
+      <div class="video-thumb" style="background:linear-gradient(135deg,#0a1a00,#1a3d00);">
+        <div class="play-overlay"><div class="play-btn">▶</div></div>
+        <span>🏰</span>
+        <div class="video-duration">6:34</div>
+      </div>
+      <div class="video-info">
+        <div class="video-tag">Minecraft</div>
+        <div class="video-title">This Mods make your Minecraft More better 🤩!!</div>
+        <div class="video-meta"><span>👁 147 views</span><span>1 month ago</span></div>
+      </div>
+    </div>
+
+    <div class="video-card" onclick="window.open('https://www.youtube.com/@Shadow-c3-i1c','_blank')">
+      <div class="video-thumb" style="background:linear-gradient(135deg,#001a1a,#003d3d);">
+        <div class="play-overlay"><div class="play-btn">▶</div></div>
+        <span>🐉</span>
+        <div class="video-duration">4:31</div>
+      </div>
+      <div class="video-info">
+        <div class="video-tag">Pokémon</div>
+        <div class="video-title">Perfect Start in Pokemon World 🔥 || Legendary Series Ep.1</div>
+        <div class="video-meta"><span>👁 134 views</span><span>1 month ago</span></div>
+      </div>
+    </div>
+
+    <div class="video-card" onclick="window.open('https://www.youtube.com/@Shadow-c3-i1c','_blank')">
+      <div class="video-thumb" style="background:linear-gradient(135deg,#1a0a00,#3d2200);">
+        <div class="play-overlay"><div class="play-btn">▶</div></div>
+        <span>⚔️</span>
+        <div class="video-duration">4:58</div>
+      </div>
+      <div class="video-info">
+        <div class="video-tag">Survival</div>
+        <div class="video-title">Spawning in the most DANGEROUS dungeon ever | EP1 🔥</div>
+        <div class="video-meta"><span>👁 73 views</span><span>2 months ago</span></div>
+      </div>
+    </div>
+
+  </div>
+  <div style="text-align:center;margin-top:50px;">
+    <a href="https://www.youtube.com/@Shadow-c3-i1c" target="_blank" class="btn-secondary">View All 295 Videos →</a>
+  </div>
+</section>
+
+<div class="divider"><div class="divider-line"></div><div class="divider-icon">⚡</div><div class="divider-line"></div></div>
+
+<!-- ABOUT -->
+<section id="about" class="fade-up">
+  <div class="section-label">The Creator</div>
+  <div class="section-title">About <span>Lord Shadow</span></div>
+  <div class="about-grid">
+    <div class="about-visual">
+      <div class="about-card">
+        <span class="about-avatar">👑</span>
+        <div class="about-name">Lord Shadow</div>
+        <div class="about-handle-text">@Shadow-c3-i1c</div>
+        <div class="skills-list">
+          <span class="skill-chip minecraft">⛏ Minecraft</span>
+          <span class="skill-chip pokemon">🐾 Pokémon</span>
+          <span class="skill-chip horror">😱 Horror</span>
+          <span class="skill-chip mods">🔧 Mods</span>
+        </div>
+      </div>
+    </div>
+    <div class="about-content">
+      <p class="about-text">
+        Lord Shadow is a gaming content creator who dives into the darkest dungeons, builds the wildest Minecraft worlds, and hunts legendary Pokémon — all while keeping it entertaining and real.
+      </p>
+      <p class="about-text">
+        From night shift horror simulations to massive Minecraft mod showcases, every upload is packed with excitement. Subscribe and join the Shadow Army!
+      </p>
+      <ul class="about-perks">
+        <li><span class="perk-icon">🎮</span> Minecraft survival & mods gameplay</li>
+        <li><span class="perk-icon">🐾</span> Pokémon legendary series</li>
+        <li><span class="perk-icon">😱</span> Horror & suspense gaming</li>
+        <li><span class="perk-icon">📅</span> Regular uploads for the community</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><div class="divider-line"></div><div class="divider-icon">🌟</div><div class="divider-line"></div></div>
+
+<!-- SOCIAL -->
+<div id="social" class="social-section fade-up">
+  <div class="section-label" style="text-align:center;display:block;">Connect</div>
+  <div class="section-title" style="text-align:center;">Join the <span>Shadow Army</span></div>
+  <p style="color:var(--muted);max-width:500px;margin:0 auto;font-size:1rem;line-height:1.7;">
+    Follow Lord Shadow across platforms and never miss a drop.
+  </p>
+  <div class="social-cards">
+    <a href="https://www.youtube.com/@Shadow-c3-i1c" target="_blank" class="social-card yt">
+      <span class="social-icon">▶️</span>
+      <div class="social-name">YouTube</div>
+      <div class="social-sub">@Shadow-c3-i1c · 1.38K subs</div>
+    </a>
+    <a href="https://instagram.com/lordshadow____" target="_blank" class="social-card ig">
+      <span class="social-icon">📸</span>
+      <div class="social-name">Instagram</div>
+      <div class="social-sub">@lordshadow____</div>
+    </a>
+  </div>
+  <div style="margin-top:60px;">
+    <a href="https://www.youtube.com/@Shadow-c3-i1c?sub_confirmation=1" target="_blank" class="btn-primary" style="font-size:1.1rem;padding:20px 50px;">
+      👑 &nbsp;Subscribe for 100 Marks!
+    </a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div style="font-family:'Cinzel Decorative',serif;font-size:1rem;color:var(--gold);margin-bottom:10px;">Lord Shadow</div>
+  <p>Made with ⚡ for the <span>Shadow Army</span> · © 2026 Lord Shadow</p>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const dot = document.getElementById('cursorDot');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+    dot.style.left = e.clientX + 'px';
+    dot.style.top = e.clientY + 'px';
+  });
+  document.querySelectorAll('a, button, .video-card').forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.style.transform = 'translate(-50%,-50%) scale(2)');
+    el.addEventListener('mouseleave', () => cursor.style.transform = 'translate(-50%,-50%) scale(1)');
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // Floating particles
+  function createParticle() {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const colors = ['rgba(255,215,0,0.4)', 'rgba(168,85,247,0.4)', 'rgba(255,255,255,0.2)'];
+    const size = Math.random() * 4 + 1;
+    p.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${Math.random()*100}vw;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      animation-duration:${Math.random()*10+8}s;
+      animation-delay:${Math.random()*5}s;
+    `;
+    document.body.appendChild(p);
+    setTimeout(() => p.remove(), 18000);
+  }
+  for (let i = 0; i < 15; i++) createParticle();
+  setInterval(createParticle, 2000);
+
+  // Counter animation
+  function animateCount(el, target, suffix='') {
+    let start = 0;
+    const duration = 1500;
+    const step = timestamp => {
+      if (!start) start = timestamp;
+      const progress = Math.min((timestamp - start) / duration, 1);
+      const val = Math.floor(progress * target);
+      el.textContent = val >= 1000 ? (val/1000).toFixed(2)+'K' + suffix : val + suffix;
+      if (progress < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+  const statsObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const nums = e.target.querySelectorAll('.stat-num');
+        nums[0] && animateCount(nums[0], 1380);
+        nums[1] && animateCount(nums[1], 295);
+        statsObserver.disconnect();
+      }
+    });
+  }, { threshold: 0.5 });
+  const heroStats = document.querySelector('.hero-stats');
+  if (heroStats) statsObserver.observe(heroStats);
+</script>
+</body>
+</html>
